@@ -9,9 +9,13 @@ spring:
     driverClassName: org.h2.Driver
     username: lisko
     password: 1234
+    initialization-mode: always
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
 
   h2:
     console.enabled: true
+
+  liquibase:
+    default_schema: lisko

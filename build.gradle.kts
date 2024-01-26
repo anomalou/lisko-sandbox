@@ -16,6 +16,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.h2database:h2")
+    implementation("org.liquibase:liquibase-core")
 
     compileOnly("org.projectlombok:lombok")
 

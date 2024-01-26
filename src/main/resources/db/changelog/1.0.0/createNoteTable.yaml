@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lisko
+      changes:
+        - createTable:
+            tableName: note
+            schema: lisko
+            remarks: Table for notes storing
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  remarks: Note creation date
+                  name: date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  remarks: Note title
+                  name: title
+                  type: varchar(100)
+              - column:
+                  remarks: Note text
+                  name: desc
+                  type: text

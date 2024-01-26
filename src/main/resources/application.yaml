@@ -1,2 +1,17 @@
+#Server configuration here
 server:
   port: 2415
+
+#Spring configuration
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/lisko
+    driverClassName: org.h2.Driver
+    username: lisko
+    password: 1234
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console.enabled: true

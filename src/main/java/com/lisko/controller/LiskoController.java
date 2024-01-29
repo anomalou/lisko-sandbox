@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/lisko")
+@RequestMapping(value = "/lisko")
 public class LiskoController {
     private final LiskoService liskoService;
 
-    @GetMapping("/get")
+    @GetMapping(value = "/get")
     public DefaultResponse justSimpleGetEndpoint(){
         return liskoService.justSimpleMethod();
     }

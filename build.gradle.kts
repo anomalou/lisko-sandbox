@@ -17,6 +17,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.h2database:h2")
     implementation("org.liquibase:liquibase-core")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     compileOnly("org.projectlombok:lombok")
 

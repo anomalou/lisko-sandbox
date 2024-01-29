@@ -1,4 +1,13 @@
 databaseChangeLog:
   - include:
-      file: createNoteTable.yaml
+      file: changeLogs/createNoteTable.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changeLogs/createAuthTables.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changeLogs/rolesData.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changeLogs/addLiskoUser.yaml
       relativeToChangelogFile: true

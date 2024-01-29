@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lisko
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: USER
+              - column:
+                  name: desc
+                  value: Simple user with plain rights
+
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: ADMIN
+              - column:
+                  name: desc
+                  value: Admin right with more wide rights than USER
+
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: LISKO
+              - column:
+                  name: desc
+                  value: Rights for GM (god mode) of the application (for Lisko)

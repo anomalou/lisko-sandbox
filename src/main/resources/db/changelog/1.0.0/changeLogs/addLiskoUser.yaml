@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lisko
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: regDate
+                  value: "2033-01-01 00:00:00"
+              - column:
+                  name: username
+                  value: lisko
+              - column:
+                  name: password
+                  value: 5c29473dcb36923f436cab63d5444246
+              - column:
+                  name: role
+                  value: 3

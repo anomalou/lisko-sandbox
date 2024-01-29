@@ -1,0 +1,78 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: lisko
+      changes:
+        - createTable:
+            tableName: user
+            schema: lisko
+            remarks: Table with all registered users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  remarks: Registration date
+                  name: regDate
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  remarks: User username (unique)
+                  name: username
+                  type: varchar(20)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  remarks: Encoded user password
+                  name: password
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  remarks: User role
+                  name: role
+                  type: int
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: role
+            schema: lisko
+            remarks: All user roles
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  remarks: Role name
+                  name: name
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  remarks: Role description
+                  name: desc
+                  type: varchar(200)
+
+  - changeSet:
+      id: 2
+      author: lisko
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role
+            baseTableName: user
+            baseTableSchemaName: lisko
+            constraintName: fk_user_role
+            referencedColumnNames: id
+            referencedTableName: role
+            referencedTableSchemaName: lisko

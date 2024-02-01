@@ -14,7 +14,7 @@ databaseChangeLog:
                   value: lisko
               - column:
                   name: password
-                  value: 5c29473dcb36923f436cab63d5444246
+                  value: $2a$12$FGfzcqnj7MAEE/c1bTEod.46TFJZXtPV2lcPk20VU2yL.lYRqYAkO
               - column:
                   name: role
                   value: 3

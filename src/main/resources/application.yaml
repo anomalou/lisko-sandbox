@@ -1,3 +1,12 @@
+#Lisko configuration
+lisko:
+  base_reg_role: USER
+
+  jwt:
+    secret: liskoksi
+    ttl: 300
+
+
 #Server configuration here
 server:
   port: 2415
@@ -5,7 +14,7 @@ server:
 #Spring configuration
 spring:
   datasource:
-    url: jdbc:h2:file:./data/lisko;INIT=RUNSCRIPT FROM './data/init.sql'
+    url: jdbc:h2:file:./data/lisko;NON_KEYWORDS=user;INIT=RUNSCRIPT FROM './data/init.sql'
     driverClassName: org.h2.Driver
     username: lisko
     password: 1234

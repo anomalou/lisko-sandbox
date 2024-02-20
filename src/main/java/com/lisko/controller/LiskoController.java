@@ -1,6 +1,6 @@
 package com.lisko.controller;
 
-import com.lisko.dto.DefaultResponse;
+import com.lisko.dto.response.DefaultResponse;
 import com.lisko.service.LiskoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -5,12 +5,13 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lisko.exception.JwtCreationException;
+import com.lisko.exception.JwtParserException;
 import com.lisko.exception.JwtValidationException;
 import com.lisko.security.jwt.entity.JwtEntity;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
@@ -18,8 +19,9 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Base64;
 
 /**
  * Author: Aleksandr Borodin
@@ -27,12 +29,19 @@ import java.time.ZoneId;
  */
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
-@ConfigurationProperties(prefix = "lisko")
 public class JwtUtil {
 
-    private final JwtConfig config;
+    @RequiredArgsConstructor
+    @Getter
+    private enum SignEncodeAlgorithm {
+        HS256("HmacSHA256");
+
+        private final String name;
+    }
+
+    @Autowired
+    private JwtConfig config;
 
     public JwtEntity parse(String token) {
         String[] parts = token.split("\\.");
@@ -42,6 +51,8 @@ public class JwtUtil {
         }
 
         ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+
         JsonFactory factory = mapper.getFactory();
 
         JwtEntity jwt = new JwtEntity();
@@ -54,7 +65,7 @@ public class JwtUtil {
             JsonNode algorithm = header.get("alg");
             jwt.getHeader().setAlgorithm(algorithm.asText());
         } catch (IOException e) {
-
+            throw new JwtParserException();
         }
 
         log.info("JWT header parsed");
@@ -64,13 +75,13 @@ public class JwtUtil {
             JsonNode body = mapper.readTree(bodyParser);
 
             JsonNode exp = body.get("exp");
-            LocalDate expDate = Instant.ofEpochMilli(exp.asLong()).atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDateTime expDate = Instant.ofEpochMilli(exp.asLong()).atZone(ZoneId.systemDefault()).toLocalDateTime();
             jwt.getBody().setExp(expDate);
 
             JsonNode username = body.get("username");
             jwt.getBody().setUsername(username.asText());
         } catch (IOException e) {
-
+            throw new JwtParserException();
         }
 
         log.info("JWT body parsed");
@@ -82,13 +93,19 @@ public class JwtUtil {
         return jwt;
     }
 
-    public String create(JwtEntity jwt) {
+    public String generate(String username) {
         try{
+            JwtEntity jwt = new JwtEntity();
+            jwt.getBody().setUsername(username);
+            jwt.getBody().setExp(LocalDateTime.now().plusSeconds(config.getTtl()));
+
             ObjectMapper mapper = new ObjectMapper();
-            String header = mapper.writeValueAsString(jwt.getHeader());
-            String body = mapper.writeValueAsString(jwt.getBody());
-            String sign = encodeSign(header + "." + body, config.getSecret());
-            return encode(header.getBytes()) + "." + encode(body.getBytes()) + "." + sign;
+            mapper.findAndRegisterModules();
+
+            String header = encode(mapper.writeValueAsString(jwt.getHeader()).getBytes());
+            String body = encode(mapper.writeValueAsString(jwt.getBody()).getBytes());
+            String sign = encodeSign(header + "." + body, config.getSecret(), SignEncodeAlgorithm.valueOf(jwt.getHeader().getAlgorithm()));
+            return header + "." + body + "." + sign;
         }catch (Exception e){
             log.error("Jwt can't be created: Exception: {}", e.getMessage()); //todo
             throw new JwtCreationException();
@@ -100,15 +117,21 @@ public class JwtUtil {
             JwtEntity jwt = parse(token);
 
             ObjectMapper mapper = new ObjectMapper();
-            String header = mapper.writeValueAsString(jwt.getHeader());
-            String body = mapper.writeValueAsString(jwt.getBody());
-            String validSign = encodeSign(header + "." + body, config.getSecret());
+            mapper.findAndRegisterModules();
 
-            if (!validSign.equals(jwt.getSign())) {
+            String header = encode(mapper.writeValueAsString(jwt.getHeader()).getBytes());
+            String body = encode(mapper.writeValueAsString(jwt.getBody()).getBytes());
+            String validSign = encodeSign(
+                    header + "." + body,
+                    config.getSecret(),
+                    SignEncodeAlgorithm.valueOf(jwt.getHeader().getAlgorithm())
+            );
+
+            if (!jwt.getSign().equals(validSign)) {
                 return false;
             }
 
-            if (jwt.getBody().getExp().isBefore(LocalDate.now())) {
+            if (jwt.getBody().getExp().isBefore(LocalDateTime.now())) {
                 return false;
             }
 
@@ -120,16 +143,17 @@ public class JwtUtil {
     }
 
     private String decode(String part) {
-        return new String(Base64.decode(part));
+        return new String(Base64.getUrlDecoder().decode(part));
     }
 
     private String encode(byte[] part){
-        return Base64.encode(part);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(part);
     }
 
-    private String encodeSign(String data, String secret) throws Exception{
+    private String encodeSign(String data, String secret, SignEncodeAlgorithm algorithm) throws Exception{
         byte[] secretHash = secret.getBytes(StandardCharsets.UTF_8);
-        Mac hs256 = Mac.getInstance("HmacSHA256"); //todo
+        Mac hs256 = Mac.getInstance(algorithm.getName()); //todo
+
         SecretKeySpec keySpec = new SecretKeySpec(secretHash, "HmacSHA256");
         hs256.init(keySpec);
 

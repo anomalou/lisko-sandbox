@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "role")
+@Table(name = "ROLE", schema = "LISKO")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

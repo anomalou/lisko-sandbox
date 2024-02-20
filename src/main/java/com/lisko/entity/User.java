@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@Table(name = "user")
+@Table(name = "USER", schema = "LISKO")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

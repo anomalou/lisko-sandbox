@@ -4,12 +4,12 @@ databaseChangeLog:
       author: lisko
       changes:
         - createTable:
-            tableName: user
-            schema: lisko
+            tableName: USER
+            schema: LISKO
             remarks: Table with all registered users
             columns:
               - column:
-                  name: id
+                  name: ID
                   type: int
                   autoIncrement: true
                   constraints:
@@ -17,37 +17,37 @@ databaseChangeLog:
                     nullable: false
               - column:
                   remarks: Registration date
-                  name: regDate
+                  name: REG_DATE
                   type: datetime
                   constraints:
                     nullable: false
               - column:
                   remarks: User username (unique)
-                  name: username
+                  name: USERNAME
                   type: varchar(20)
                   constraints:
                     unique: true
                     nullable: false
               - column:
                   remarks: Encoded user password
-                  name: password
-                  type: varchar(50)
+                  name: PASSWORD
+                  type: varchar(100)
                   constraints:
                     nullable: false
               - column:
                   remarks: User role
-                  name: role
+                  name: ROLE_ID
                   type: int
                   constraints:
                     nullable: false
 
         - createTable:
-            tableName: role
-            schema: lisko
+            tableName: ROLE
+            schema: LISKO
             remarks: All user roles
             columns:
               - column:
-                  name: id
+                  name: ID
                   type: int
                   autoIncrement: true
                   constraints:
@@ -55,13 +55,13 @@ databaseChangeLog:
                     nullable: false
               - column:
                   remarks: Role name
-                  name: name
+                  name: NAME
                   type: varchar(30)
                   constraints:
                     nullable: false
               - column:
                   remarks: Role description
-                  name: desc
+                  name: DESC
                   type: varchar(200)
 
   - changeSet:
@@ -69,10 +69,10 @@ databaseChangeLog:
       author: lisko
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: role
-            baseTableName: user
-            baseTableSchemaName: lisko
-            constraintName: fk_user_role
-            referencedColumnNames: id
-            referencedTableName: role
-            referencedTableSchemaName: lisko
+            baseColumnNames: ROLE_ID
+            baseTableName: USER
+            baseTableSchemaName: LISKO
+            constraintName: FK_USER_ROLE
+            referencedColumnNames: ID
+            referencedTableName: ROLE
+            referencedTableSchemaName: LISKO

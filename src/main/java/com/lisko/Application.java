@@ -14,7 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(value = "com.lisko.repository")
-@EnableConfigurationProperties(JwtConfig.class)
 @Slf4j
 public class Application {
     public static void main(String[] args) {

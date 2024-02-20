@@ -4,12 +4,12 @@ databaseChangeLog:
       author: lisko
       changes:
         - createTable:
-            tableName: note
-            schema: lisko
+            tableName: NOTE
+            schema: LISKO
             remarks: Table for notes storing
             columns:
               - column:
-                  name: id
+                  name: ID
                   type: int
                   autoIncrement: true
                   constraints:
@@ -17,15 +17,15 @@ databaseChangeLog:
                     nullable: false
               - column:
                   remarks: Note creation date
-                  name: date
+                  name: DATE
                   type: datetime
                   constraints:
                     nullable: false
               - column:
                   remarks: Note title
-                  name: title
+                  name: TITLE
                   type: varchar(100)
               - column:
                   remarks: Note text
-                  name: desc
+                  name: DESC
                   type: text

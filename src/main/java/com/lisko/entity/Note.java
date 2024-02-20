@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  * Creation date: 1/29/24
  */
 @Entity
-@Table(name = "note")
+@Table(name = "NOTE", schema = "LISKO")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

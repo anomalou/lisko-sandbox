@@ -1,6 +1,6 @@
 package com.lisko.service;
 
-import com.lisko.dto.DefaultResponse;
+import com.lisko.dto.response.DefaultResponse;
 
 /**
  * Author: Aleksandr Borodin

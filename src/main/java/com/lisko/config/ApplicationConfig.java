@@ -1,4 +1,4 @@
-package com.lisko.security.jwt;
+package com.lisko.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,13 +7,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * Author: Aleksandr Borodin
- * Creation date: 2/1/24
+ * Creation date: 2/2/24
  */
+@Component
 @Getter
 @Setter
-@Component
-@ConfigurationProperties(prefix = "lisko.jwt")
-public class JwtConfig {
-    private String secret;
-    private Long ttl;
+@ConfigurationProperties(prefix = "lisko")
+public class ApplicationConfig {
+    private String baseRegRole;
 }

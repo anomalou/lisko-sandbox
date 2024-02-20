@@ -1,5 +1,8 @@
 package com.lisko.security.jwt.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,13 +17,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 public class JwtHeader {
+    @JsonAlias("alg")
+    @JsonProperty("alg")
     private String algorithm = "HS256";
-    private String type = "JWT";
 
-    @Override
-    public String toString() {
-        return "{\"alg\": \"" + algorithm + "\", \"typ\": \"" + type + "\"}";
-    }
+    @JsonAlias("typ")
+    @JsonProperty("typ")
+    private String type = "JWT";
 }

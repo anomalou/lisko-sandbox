@@ -1,6 +1,6 @@
 package com.lisko.service.impl;
 
-import com.lisko.dto.DefaultResponse;
+import com.lisko.dto.response.DefaultResponse;
 import com.lisko.enums.ResponseCode;
 import com.lisko.service.LiskoService;
 import lombok.RequiredArgsConstructor;

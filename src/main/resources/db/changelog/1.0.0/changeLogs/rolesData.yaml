@@ -4,31 +4,31 @@ databaseChangeLog:
       author: lisko
       changes:
         - insert:
-            tableName: role
+            tableName: ROLE
             columns:
               - column:
-                  name: name
+                  name: NAME
                   value: USER
               - column:
-                  name: desc
+                  name: DESC
                   value: Simple user with plain rights
 
         - insert:
-            tableName: role
+            tableName: ROLE
             columns:
               - column:
-                  name: name
+                  name: NAME
                   value: ADMIN
               - column:
-                  name: desc
+                  name: DESC
                   value: Admin right with more wide rights than USER
 
         - insert:
-            tableName: role
+            tableName: ROLE
             columns:
               - column:
-                  name: name
+                  name: NAME
                   value: LISKO
               - column:
-                  name: desc
+                  name: DESC
                   value: Rights for GM (god mode) of the application (for Lisko)

@@ -4,17 +4,17 @@ databaseChangeLog:
       author: lisko
       changes:
         - insert:
-            tableName: user
+            tableName: USER
             columns:
               - column:
-                  name: regDate
+                  name: REG_DATE
                   value: "2033-01-01 00:00:00"
               - column:
-                  name: username
+                  name: USERNAME
                   value: lisko
               - column:
-                  name: password
+                  name: PASSWORD
                   value: $2a$12$FGfzcqnj7MAEE/c1bTEod.46TFJZXtPV2lcPk20VU2yL.lYRqYAkO
               - column:
-                  name: role
+                  name: ROLE_ID
                   value: 3

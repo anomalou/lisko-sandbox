@@ -3,6 +3,7 @@ package com.lisko.controller;
 import com.lisko.dto.response.DefaultResponse;
 import com.lisko.service.LiskoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ public class LiskoController {
     private final LiskoService liskoService;
 
     @GetMapping(value = "/get")
+    @PreAuthorize("hasAuthority('LISKO')")
     public DefaultResponse justSimpleGetEndpoint(){
         return liskoService.justSimpleMethod();
     }

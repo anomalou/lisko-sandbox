@@ -36,6 +36,7 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)

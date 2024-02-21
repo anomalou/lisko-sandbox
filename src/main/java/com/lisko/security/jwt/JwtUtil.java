@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.lisko.exception.JwtCreationException;
 import com.lisko.exception.JwtParserException;
 import com.lisko.exception.JwtValidationException;
@@ -12,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
@@ -75,7 +78,8 @@ public class JwtUtil {
             JsonNode body = mapper.readTree(bodyParser);
 
             JsonNode exp = body.get("exp");
-            LocalDateTime expDate = Instant.ofEpochMilli(exp.asLong()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+            LocalDateTime expDate = LocalDateTime.parse(exp.asText());
             jwt.getBody().setExp(expDate);
 
             JsonNode username = body.get("username");
@@ -100,6 +104,7 @@ public class JwtUtil {
             jwt.getBody().setExp(LocalDateTime.now().plusSeconds(config.getTtl()));
 
             ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
             mapper.findAndRegisterModules();
 
             String header = encode(mapper.writeValueAsString(jwt.getHeader()).getBytes());
@@ -118,6 +123,7 @@ public class JwtUtil {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.findAndRegisterModules();
+            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
             String header = encode(mapper.writeValueAsString(jwt.getHeader()).getBytes());
             String body = encode(mapper.writeValueAsString(jwt.getBody()).getBytes());

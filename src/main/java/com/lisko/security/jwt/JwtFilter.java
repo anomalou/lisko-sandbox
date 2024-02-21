@@ -2,10 +2,8 @@ package com.lisko.security.jwt;
 
 import com.lisko.exception.AuthorizationException;
 import com.lisko.security.jwt.entity.JwtEntity;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * Author: Aleksandr Borodin
@@ -30,7 +27,7 @@ import java.util.Objects;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final String BAERER_PREFIX = "Baerer ";
+    private final String BEARER_PREFIX = "Bearer ";
     private final String HEADER_NAME = "Authorization";
 
     private final JwtUtil util;
@@ -46,12 +43,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String header = request.getHeader(HEADER_NAME);
 
         try{
-            if(StringUtils.isBlank(header) || !StringUtils.startsWith(header, BAERER_PREFIX)) {
+            if(StringUtils.isBlank(header) || !StringUtils.startsWith(header, BEARER_PREFIX)) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            String token = header.substring(BAERER_PREFIX.length());
+            String token = header.substring(BEARER_PREFIX.length());
 
             JwtEntity jwt = util.parse(token);
 

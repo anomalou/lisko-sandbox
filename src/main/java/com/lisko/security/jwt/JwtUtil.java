@@ -117,10 +117,8 @@ public class JwtUtil {
         }
     }
 
-    public boolean validate(String token) {
+    public boolean validate(JwtEntity jwt) {
         try{
-            JwtEntity jwt = parse(token);
-
             ObjectMapper mapper = new ObjectMapper();
             mapper.findAndRegisterModules();
             mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);

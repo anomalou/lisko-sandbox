@@ -17,7 +17,7 @@ public class LiskoServiceImpl implements LiskoService {
     @Override
     public DefaultResponse justSimpleMethod() {
         DefaultResponse defaultResponse = DefaultResponse.builder()
-                .code(ResponseCode.OK)
+                .code(ResponseCode.OK.getCode())
                 .build();
 
         return defaultResponse;

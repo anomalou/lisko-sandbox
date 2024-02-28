@@ -18,6 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DefaultResponse {
-    private ResponseCode code;
+    private String code;
+    private String codeDesc;
     private Object msg;
 }

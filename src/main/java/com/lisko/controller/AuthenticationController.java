@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * Author: Aleksandr Borodin
  * Creation date: 2/2/24
@@ -23,12 +25,12 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/login")
-    public JwtResponse signIn(@RequestBody SignInRequest request) {
+    public JwtResponse signIn(@Valid @RequestBody SignInRequest request) {
         return service.signIn(request);
     }
 
     @PostMapping("/reg")
-    public JwtResponse signUp(@RequestBody SignUpRequest request) {
+    public JwtResponse signUp(@Valid @RequestBody SignUpRequest request) {
         return service.signUp(request);
     }
 

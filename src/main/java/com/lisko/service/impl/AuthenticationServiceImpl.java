@@ -45,11 +45,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (encoder.matches(request.getPassword(), details.getPassword())) {
             String token = util.generate(details.getUsername());
 
-            log.info("User {} signed in", request);
+            log.info("User {} have been generated token", request.getUsername());
 
             return new JwtResponse(token);
         } else {
-            throw new AuthorizationException();
+            throw new AuthorizationException(details.getUsername());
         }
     }
 

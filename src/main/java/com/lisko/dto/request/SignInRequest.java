@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
@@ -20,6 +22,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class SignInRequest implements Serializable {
+    @NotBlank
+    @Pattern(regexp = "\\w{1,20}")
     private String username;
+    @NotBlank
+    @Pattern(regexp = "[\\w\\W]{6,40}")
     private String password;
 }

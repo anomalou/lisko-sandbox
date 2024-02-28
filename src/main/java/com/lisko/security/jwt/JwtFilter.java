@@ -53,13 +53,13 @@ public class JwtFilter extends OncePerRequestFilter {
             JwtEntity jwt = util.parse(token);
 
             if (StringUtils.isBlank(jwt.getBody().getUsername())) {
-                throw new AuthorizationException();
+                throw new AuthorizationException(null);
             }
 
             UserDetails details = detailsService.loadUserByUsername(jwt.getBody().getUsername());
 
-            if (!util.validate(token)) {
-                throw new AuthorizationException();
+            if (!util.validate(jwt)) {
+                throw new AuthorizationException(jwt.getBody().getUsername());
             }
 
             SecurityContext context = SecurityContextHolder.createEmptyContext();
